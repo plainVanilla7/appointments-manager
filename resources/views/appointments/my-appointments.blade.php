@@ -33,6 +33,6 @@
             </tbody>
         </table>
     @else
-        <p>No appointments found.</p>
+        <p>You don't have any appointments.</p>
     @endif
 @endsection

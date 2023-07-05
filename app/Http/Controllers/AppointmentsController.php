@@ -9,15 +9,15 @@ class AppointmentsController extends Controller
 {
     public function index()
     {
-        $appointments = Appointment::all();
 
+       $appointments = Appointment::all();
         return view('appointments.index', compact('appointments'));
     }
 
 public function myAppointments()
 {
-    $appointments = Appointment::all();
-
+        $user = auth()->user();
+        $appointments = $user->appointments;
     return view('appointments.my-appointments', compact('appointments'));
 }
 
@@ -26,19 +26,23 @@ public function store(Request $request)
     $request->validate([
         'date' => 'required|date',
         'time' => 'required',
-        'client_name' => 'required',
-        'client_email' => 'required|email',
     ]);
 
-    Appointment::create([
+    $user = auth()->user();
+    $userName = $user->name;
+    $userEmail = $user->email;
+
+    $appointment = $user->appointments()->create([
         'date' => $request->date,
         'time' => $request->time,
-        'client_name' => $request->client_name,
-        'client_email' => $request->client_email,
+        'client_name' => $userName,
+        'client_email' => $userEmail,
     ]);
 
     return redirect()->route('home')->with('success', 'Appointment created successfully.');
 }
+
+
 
 
     public function destroy(Appointment $appointment)
