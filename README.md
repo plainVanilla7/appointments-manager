@@ -1,1 +1,11 @@
-I Consider there is no need to set-up a local environment just to be able to watch this demo. Instead visit this deploy on netlify and checkout the code directly in github.
+---
+
+## How to use
+
+- Clone the repository with __git clone__
+- Adjust .env file
+- Run __composer install__
+- Run npm install
+- Run __php artisan key:generate__
+- Run __php artisan migrate
+- You can login to adminpanel with default credentials __admin@admin.com__ - __password__
