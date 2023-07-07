@@ -25,18 +25,27 @@ public function myAppointments()
 }
 
 public function checkAvailability(Request $request)
-    {
-        $date = $request->input('date');
-        $time = $request->input('time');
+{
+    $date = $request->input('date');
+    $time = $request->input('time');
+    $endTime = \Carbon\Carbon::createFromFormat('H:i', $time)->addHour()->format('H:i');
 
-       $count = Appointment::where('date', $date)
-           ->where('time', $time)
-           ->count();
+    $count = Appointment::where(function ($query) use ($date, $time, $endTime) {
+        $query->where(function ($query) use ($date, $time) {
+            $query->where('date', $date)
+                ->where('time', $time);
+        })->orWhere(function ($query) use ($date, $endTime) {
+            $query->where('date', $date)
+                ->where('time', $endTime);
+        });
+    })->count();
 
-        return response()->json([
-            'available' => $count === 0
-        ]);
-    }
+    return response()->json([
+        'available' => $count === 0
+    ]);
+}
+
+
 
 
 public function store(Request $request)
