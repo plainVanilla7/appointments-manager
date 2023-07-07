@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Appointment;
+use Carbon\Carbon;
 
 class AppointmentsController extends Controller
 {
@@ -20,6 +21,8 @@ public function myAppointments()
         $appointments = $user->appointments;
     return view('appointments.my-appointments', compact('appointments'));
 }
+
+
 
 public function store(Request $request)
 {
